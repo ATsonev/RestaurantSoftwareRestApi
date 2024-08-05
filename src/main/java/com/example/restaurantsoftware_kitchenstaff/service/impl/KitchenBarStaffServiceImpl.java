@@ -50,6 +50,11 @@ public class KitchenBarStaffServiceImpl implements KitchenBarStaffService {
         return Optional.empty();
     }
 
+    @Override
+    public void deleteAccountById(Long id) {
+        kitchenBarStaffRepository.deleteById(id);
+    }
+
     private static KitchenBarStaffDto convertToDto(KitchenBarStaff kitchenBarStaff) {
         KitchenBarStaffDto dto = new KitchenBarStaffDto();
         dto.setId(kitchenBarStaff.getId());

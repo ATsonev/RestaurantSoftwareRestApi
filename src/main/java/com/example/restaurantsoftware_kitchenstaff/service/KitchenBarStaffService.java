@@ -14,4 +14,6 @@ public interface KitchenBarStaffService {
     List<KitchenBarStaffDto> getAllStaff();
 
     Optional<KitchenBarStaffDto> findByPassword(String password);
+
+    void deleteAccountById(Long id);
 }

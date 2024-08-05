@@ -1,13 +1,10 @@
 package com.example.restaurantsoftware_kitchenstaff.web;
 
-import com.example.restaurantsoftware_kitchenstaff.model.KitchenBarStaff;
 import com.example.restaurantsoftware_kitchenstaff.model.dto.AddKitchenBarStaffDTO;
 import com.example.restaurantsoftware_kitchenstaff.model.dto.KitchenBarStaffDto;
-import com.example.restaurantsoftware_kitchenstaff.model.enums.Role;
 import com.example.restaurantsoftware_kitchenstaff.service.KitchenBarStaffService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +12,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/kitchen-bar-staff")
-public class KitchenBarStaffController {
+public class KitchenBarStaffRestController {
 
     private final KitchenBarStaffService kitchenBarStaffService;
 
-    public KitchenBarStaffController(KitchenBarStaffService kitchenBarStaffService) {
+    public KitchenBarStaffRestController(KitchenBarStaffService kitchenBarStaffService) {
         this.kitchenBarStaffService = kitchenBarStaffService;
     }
 
@@ -31,7 +28,7 @@ public class KitchenBarStaffController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<KitchenBarStaffDto>> getAllStaff(@PathVariable Long id) {
+    public ResponseEntity<List<KitchenBarStaffDto>> getAllStaff() {
         return ResponseEntity.ok(kitchenBarStaffService.getAllStaff());
     }
 
@@ -41,4 +38,13 @@ public class KitchenBarStaffController {
         Optional<KitchenBarStaffDto> kitchenBarStaffDto= kitchenBarStaffService.findByPassword(dto.getPassword());
         return kitchenBarStaffDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    @DeleteMapping("/delete-account/{id}")
+    public ResponseEntity<List<KitchenBarStaffDto>> deleteAccount(@PathVariable Long id) {
+        kitchenBarStaffService.deleteAccountById(id);
+        List<KitchenBarStaffDto> updatedStaff = kitchenBarStaffService.getAllStaff();
+        return ResponseEntity.ok(updatedStaff);
+    }
+
+
 }
